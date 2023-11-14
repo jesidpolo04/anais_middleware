@@ -146,22 +146,22 @@ namespace colanta_backend
             //------------------- Tasks -------------------------//
 
             //Scheduled Tasks
-            services.AddHostedService<ScheduledRenderBrands>();
+            //services.AddHostedService<ScheduledRenderBrands>();
             //services.AddHostedService<ScheduledUpdateBrandsState>();
             //services.AddHostedService<ScheduledUpBrandsToVtex>();
 
-            services.AddHostedService<ScheduledRenderCategories>();
+            //services.AddHostedService<ScheduledRenderCategories>();
             //services.AddHostedService<ScheduledUpCategoriesToVtex>();
             //services.AddHostedService<ScheduledUpdateCategoriesState>();
 
-            services.AddHostedService<App.Products.Jobs.ScheduledRenderProductsAndSkus>();
+            //services.AddHostedService<App.Products.Jobs.ScheduledRenderProductsAndSkus>();
             //services.AddHostedService<ScheduledUpToVtexNullProductsAndSkus>();
             //services.AddHostedService<ScheduledUpdateProductsAndSkusStates>();
 
-            services.AddHostedService<ScheduledRenderPrices>();
+            //services.AddHostedService<ScheduledRenderPrices>();
             //services.AddHostedService<ScheduledNotifyMissingPrices>();
 
-            services.AddHostedService<ScheduledRenderInventories>();
+            //services.AddHostedService<ScheduledRenderInventories>();
 
             //services.AddHostedService<ScheduledRenderPromotions>();
             //services.AddHostedService<ScheduledUpdatePromotionsState>();
@@ -171,7 +171,7 @@ namespace colanta_backend
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "flexi_middleware", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "anais_middleware", Version = "v1" });
             });
         }
 
@@ -182,7 +182,7 @@ namespace colanta_backend
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flexi Middleware"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Anais Middleware"));
             }
 
             app.UseHttpsRedirection();
