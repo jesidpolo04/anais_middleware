@@ -135,7 +135,7 @@
         {
             string endpoint = "/api/catalog/pvt/category";
             string jsonContent;
-            var DEFAULT_GLOBAL_CATEGORY = 187;
+            var DEFAULT_GLOBAL_CATEGORY = 499799;
 
             Category existCategory = await this.getCategoryByName(category.name);
             if(existCategory != null)
