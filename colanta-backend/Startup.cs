@@ -146,22 +146,22 @@ namespace colanta_backend
             //------------------- Tasks -------------------------//
 
             //Scheduled Tasks
-            //services.AddHostedService<ScheduledRenderBrands>();
+            services.AddHostedService<ScheduledRenderBrands>();
             //services.AddHostedService<ScheduledUpdateBrandsState>();
             //services.AddHostedService<ScheduledUpBrandsToVtex>();
 
-            //services.AddHostedService<ScheduledRenderCategories>();
+            services.AddHostedService<ScheduledRenderCategories>();
             //services.AddHostedService<ScheduledUpCategoriesToVtex>();
             //services.AddHostedService<ScheduledUpdateCategoriesState>();
 
-            //services.AddHostedService<App.Products.Jobs.ScheduledRenderProductsAndSkus>();
+            services.AddHostedService<App.Products.Jobs.ScheduledRenderProductsAndSkus>();
             //services.AddHostedService<ScheduledUpToVtexNullProductsAndSkus>();
             //services.AddHostedService<ScheduledUpdateProductsAndSkusStates>();
 
-            //services.AddHostedService<ScheduledRenderPrices>();
+            services.AddHostedService<ScheduledRenderPrices>();
             //services.AddHostedService<ScheduledNotifyMissingPrices>();
 
-            //services.AddHostedService<ScheduledRenderInventories>();
+            services.AddHostedService<ScheduledRenderInventories>();
 
             //services.AddHostedService<ScheduledRenderPromotions>();
             //services.AddHostedService<ScheduledUpdatePromotionsState>();
