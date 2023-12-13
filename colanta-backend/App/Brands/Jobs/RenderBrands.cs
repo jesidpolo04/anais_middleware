@@ -9,6 +9,8 @@
     using System.Text.Json;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Configuration;
+    using colanta_backend.App.Shared.Infraestructure;
+
     public class RenderBrands : IDisposable
     {
         public string processName = "Renderizado de marcas";
@@ -100,8 +102,9 @@
 
                         if (localBrand != null && localBrand.state == false && localBrand.id_vtex != null)
                         {
-                            //not yet active brand
-                            this.inactiveBrands.Add(localBrand);
+                            localBrand.state = true;
+                            brandsVtexRepository.updateBrandState((int)localBrand.id_vtex, localBrand.state).Wait();
+                            brandsLocalRepository.updateBrand(localBrand);
                         }
 
                         if (localBrand == null)
