@@ -29,8 +29,8 @@
         private List<Detail> details = new List<Detail>();
         private JsonSerializerOptions jsonOptions;
         public RenderCategories(
-            CategoriesRepository categoriesLocalRepository, 
-            CategoriesVtexRepository categoriesVtexRepository, 
+            CategoriesRepository categoriesLocalRepository,
+            CategoriesVtexRepository categoriesVtexRepository,
             CategoriesSiesaRepository categoriesSiesaRepository,
             ILogger logger,
             IRenderCategoriesMail mail
@@ -76,11 +76,11 @@
                     }
                 }
 
-                foreach(Category siesaCategory in siesaCategories)
+                foreach (Category siesaCategory in siesaCategories)
                 {
                     Category localCategory = await this.localRepository.getCategoryBySiesaId(siesaCategory.siesa_id);
 
-                    if(localCategory != null)
+                    if (localCategory != null)
                     {
                         if (localCategory.isActive)
                         {
@@ -88,9 +88,11 @@
                         }
                         else
                         {
-                            this.inactiveCategories.Add(localCategory);
+                            localCategory.isActive = true;
+                            vtexRepository.updateCategoryState((int)localCategory.vtex_id, localCategory.isActive).Wait();
+                            localRepository.updateCategory(localCategory);
                         }
-                        foreach(Category childLocalCategory in localCategory.childs)
+                        foreach (Category childLocalCategory in localCategory.childs)
                         {
                             if (childLocalCategory.isActive)
                             {
@@ -98,13 +100,15 @@
                             }
                             else
                             {
-                                this.inactiveCategories.Add(childLocalCategory);
+                                childLocalCategory.isActive = true;
+                                vtexRepository.updateCategoryState((int)childLocalCategory.vtex_id, childLocalCategory.isActive).Wait();
+                                localRepository.updateCategory(childLocalCategory);
                             }
                         }
-                        foreach(Category childSiesaCategory in siesaCategory.childs)
+                        foreach (Category childSiesaCategory in siesaCategory.childs)
                         {
                             Category childLocalCategory = await this.localRepository.getCategoryBySiesaId(childSiesaCategory.siesa_id);
-                            if(childLocalCategory != null)
+                            if (childLocalCategory != null)
                             {
                                 if (childLocalCategory.isActive)
                                 {
@@ -125,13 +129,13 @@
                                     childLocalCategory = await this.localRepository.updateCategory(childLocalCategory);
                                     this.loadCategories.Add(childLocalCategory);
                                 }
-                                catch(VtexException exception)
+                                catch (VtexException exception)
                                 {
                                     this.console.throwException(exception.Message);
                                     this.failedLoadCategories.Add(childSiesaCategory);
                                     this.logger.writelog(exception);
                                 }
-                                catch(Exception exception)
+                                catch (Exception exception)
                                 {
                                     this.console.throwException(exception.Message);
                                     this.logger.writelog(exception);
@@ -139,7 +143,7 @@
                             }
                         }
                     }
-                    if(localCategory == null)
+                    if (localCategory == null)
                     {
                         try
                         {
@@ -160,21 +164,21 @@
                                     await this.localRepository.updateCategory(localChildCategory);
                                     this.loadCategories.Add(localChildCategory);
                                 }
-                                catch(VtexException exception)
+                                catch (VtexException exception)
                                 {
                                     this.console.throwException(exception.Message);
                                     this.failedLoadCategories.Add(localChildCategory);
                                     this.details.Add(new Detail("vtex", exception.requestUrl, exception.responseBody, exception.Message, false));
                                     this.logger.writelog(exception);
                                 }
-                                catch(Exception exception)
+                                catch (Exception exception)
                                 {
                                     this.console.throwException(exception.Message);
                                     this.logger.writelog(exception);
                                 }
                             }
                         }
-                        catch(VtexException exception)
+                        catch (VtexException exception)
                         {
                             this.console.throwException(exception.Message);
                             this.failedLoadCategories.Add(localCategory);
@@ -184,7 +188,7 @@
                             }
                             this.logger.writelog(exception);
                         }
-                        catch(Exception exception)
+                        catch (Exception exception)
                         {
                             this.console.throwException(exception.Message);
                             this.logger.writelog(exception);
@@ -199,7 +203,7 @@
                 this.console.processEndstAt(processName, DateTime.Now);
                 this.logger.writelog(exception);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 this.console.throwException(exception.Message);
                 this.console.processEndstAt(processName, DateTime.Now);
